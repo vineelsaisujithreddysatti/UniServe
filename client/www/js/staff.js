@@ -74,7 +74,6 @@ const staffManager = (function () {
       $('#staff-detail-status-badge').html(uiHelper.getStatusBadgeHtml(request.status));
       $('#staff-response-input').val(request.staffResponse || '');
 
-      // update status dropdown based on current state
       const $statusSelect = $('#staff-status-select');
       $statusSelect.empty();
 
@@ -91,7 +90,6 @@ const staffManager = (function () {
         $statusSelect.append(`<option value="${request.status}" selected>${uiHelper.getStatusLabel(request.status)}</option>`);
       }
 
-      // show call button if queue entry is waiting
       const $serveQueueBtn = $('#btn-staff-serve-queue');
       if (request.queue && request.queue.status === 'WAITING') {
         $serveQueueBtn.show().data('queue-id', request.queue.queueId);
@@ -99,7 +97,6 @@ const staffManager = (function () {
         $serveQueueBtn.hide();
       }
 
-      // show evidence button if file is attached
       const $viewEvidenceBtn = $('#btn-staff-view-evidence');
       if (request.hasEvidence) {
         $viewEvidenceBtn.show().data('request-id', request.requestId);
@@ -131,7 +128,6 @@ const staffManager = (function () {
       const result = await apiClient.put(`/requests/${currentStaffRequest.requestId}`, payload);
       uiHelper.showAlert('#staff-detail-alert-container', 'Request updated successfully!', 'success');
 
-      // update cached state
       currentStaffRequest.status = result.request.status;
       currentStaffRequest.staffResponse = result.request.staffResponse;
       $('#staff-detail-status-badge').html(uiHelper.getStatusBadgeHtml(result.request.status));

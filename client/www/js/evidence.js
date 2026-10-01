@@ -78,9 +78,7 @@ const evidenceManager = (function () {
     if (onSuccessCallback) onSuccessCallback(capturedEvidence);
   }
 
-  // camera capture handler
   function captureImage(onSuccessCallback, onErrorCallback) {
-    // cordova camera plugin
     if (navigator.camera && window.Camera) {
       const cameraOptions = {
         quality: 80,
@@ -113,7 +111,6 @@ const evidenceManager = (function () {
       return;
     }
 
-    // fallback to getusermedia in browser
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({
         video: {
@@ -130,7 +127,6 @@ const evidenceManager = (function () {
         }
         $('#live-camera-modal').show();
 
-        // modal snapshot and close handlers
         $('#btn-take-snapshot').off('click').on('click', function (e) {
           e.preventDefault();
           captureSnapshot(onSuccessCallback);
@@ -147,7 +143,6 @@ const evidenceManager = (function () {
       return;
     }
 
-    // standard file input fallback if no camera api
     fallbackToCameraInput(onSuccessCallback);
   }
 
@@ -160,9 +155,7 @@ const evidenceManager = (function () {
     $cameraInput.click();
   }
 
-  // upload photo from gallery or disk for tranfer
   function uploadImage(onSuccessCallback, onErrorCallback) {
-    // cordova photo library
     if (navigator.camera && window.Camera) {
       const libraryOptions = {
         quality: 80,
@@ -194,7 +187,6 @@ const evidenceManager = (function () {
       return;
     }
 
-    // standard file picker in browser
     const $fileInput = $('#file-upload-input');
     $fileInput.off('change').on('change', function (event) {
       const file = event.target.files[0];
@@ -216,7 +208,6 @@ const evidenceManager = (function () {
     $('#evidence-preview-box').hide();
     $('#btn-clear-evidence').hide();
 
-    // reset file inputs
     $('#camera-capture-input').val('');
     $('#file-upload-input').val('');
   }
