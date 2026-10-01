@@ -12,9 +12,10 @@ const router = express.Router();
 // rate limit login attempts
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 30,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   handler: (req, res) => {
     res.status(429).json({
       error: 'RATE_LIMIT_EXCEEDED',

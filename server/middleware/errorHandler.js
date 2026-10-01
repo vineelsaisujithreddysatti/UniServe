@@ -1,4 +1,11 @@
 function errorHandler(err, req, res, next) {
+  if (err.message && err.message.startsWith('CORS policy:')) {
+    return res.status(403).json({
+      error: 'CORS_ERROR',
+      message: err.message
+    });
+  }
+
   // payload too large
   if (err.type === 'entity.too.large' || err.status === 413) {
     return res.status(413).json({
@@ -17,7 +24,7 @@ function errorHandler(err, req, res, next) {
   }
 
   // mongoose validation error
-  if (err.name === 'ValidationError') {
+  if (err.name === 'ValidationError' && err.errors) {
     const messages = Object.values(err.errors).map(e => e.message);
     return res.status(400).json({
       error: 'VALIDATION_ERROR',
@@ -37,6 +44,10 @@ function errorHandler(err, req, res, next) {
   const message = statusCode === 500 && process.env.NODE_ENV === 'production'
     ? 'An unexpected internal error occurred.'
     : (err.message || 'Internal server error');
+
+  if (statusCode >= 500) {
+    console.error('Server error:', err);
+  }
 
   res.status(statusCode).json({
     error: err.code || 'INTERNAL_ERROR',

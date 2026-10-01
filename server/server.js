@@ -34,11 +34,14 @@ app.use(cors({
   origin: function (origin, callback) {
     // allow requests without origin (cordova, curl, etc)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
-      return callback(null, true);
-    }
-    // allow localhost ports in dev
-    if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    if (
+      allowedOrigins.indexOf(origin) !== -1 ||
+      allowedOrigins.includes('*') ||
+      origin.endsWith('.onrender.com') ||
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:') ||
+      origin.startsWith('https://localhost:')
+    ) {
       return callback(null, true);
     }
     return callback(new Error('CORS policy: origin not allowed'), false);
@@ -68,7 +71,8 @@ const staticLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 1000,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  validate: { xForwardedForHeader: false }
 });
 
 // fallback for client-side routing
