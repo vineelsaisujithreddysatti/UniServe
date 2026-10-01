@@ -17,6 +17,9 @@ const queueRoutes = require('./routes/queue');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// trust first proxy hop on cloud providers (Render, Heroku, etc.)
+app.set('trust proxy', 1);
+
 // security headers
 app.use(helmet({
   contentSecurityPolicy: false // needed for cordova and local client
