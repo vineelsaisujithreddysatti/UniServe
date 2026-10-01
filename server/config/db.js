@@ -10,7 +10,7 @@ async function connectDatabase() {
   if (uri) {
     try {
       await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 5000
+        serverSelectionTimeoutMS: 10000
       });
       console.log('Connected to MongoDB database');
       return mongoose.connection;
