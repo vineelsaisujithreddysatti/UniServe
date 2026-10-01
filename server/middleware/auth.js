@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { getJwtSecret } = require('../config/jwtSecret');
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
@@ -19,13 +20,7 @@ function authenticateToken(req, res, next) {
   }
 
   const token = parts[1];
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    return res.status(500).json({
-      error: 'SERVER_MISCONFIGURED',
-      message: 'JWT secret not configured.'
-    });
-  }
+  const secret = getJwtSecret();
 
   jwt.verify(token, secret, { algorithms: ['HS256'] }, (err, decoded) => {
     if (err) {

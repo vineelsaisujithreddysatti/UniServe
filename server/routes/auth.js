@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 const User = require('../models/User');
 const { validateSignupPayload, validateLoginPayload } = require('../middleware/validation');
+const { getJwtSecret } = require('../config/jwtSecret');
 
 const router = express.Router();
 
@@ -92,13 +93,7 @@ router.post('/login', loginLimiter, validateLoginPayload, async (req, res, next)
       });
     }
 
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      return res.status(500).json({
-        error: 'SERVER_MISCONFIGURED',
-        message: 'JWT secret not configured.'
-      });
-    }
+    const secret = getJwtSecret();
     const payload = {
       userId: user.userId,
       email: user.email,
