@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const { connectDatabase } = require('./config/db');
 const { errorHandler } = require('./middleware/errorHandler');
 
@@ -60,8 +61,15 @@ app.use('/api/requests', requestsRoutes);
 app.use('/api/appointments', appointmentsRoutes);
 app.use('/api/queue', queueRoutes);
 
+const staticLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
 // fallback for client-side routing
-app.get('*', (req, res, next) => {
+app.get('*', staticLimiter, (req, res, next) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({
       error: 'ENDPOINT_NOT_FOUND',

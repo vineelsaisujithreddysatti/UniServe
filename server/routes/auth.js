@@ -92,7 +92,13 @@ router.post('/login', loginLimiter, validateLoginPayload, async (req, res, next)
       });
     }
 
-    const secret = process.env.JWT_SECRET || 'fallback_development_secret_uniserve_2026';
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      return res.status(500).json({
+        error: 'SERVER_MISCONFIGURED',
+        message: 'JWT secret not configured.'
+      });
+    }
     const payload = {
       userId: user.userId,
       email: user.email,

@@ -19,7 +19,13 @@ function authenticateToken(req, res, next) {
   }
 
   const token = parts[1];
-  const secret = process.env.JWT_SECRET || 'fallback_development_secret_uniserve_2026';
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    return res.status(500).json({
+      error: 'SERVER_MISCONFIGURED',
+      message: 'JWT secret not configured.'
+    });
+  }
 
   jwt.verify(token, secret, { algorithms: ['HS256'] }, (err, decoded) => {
     if (err) {
