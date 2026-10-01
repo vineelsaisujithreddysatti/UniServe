@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://code.jquery.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com; media-src *; img-src 'self' data: content: blob:; connect-src *;">
+  <title>UniServe - University Service Hub</title>
+
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="cordova.js"></script>
+</head>
+<body>
+
+  <!-- login page -->
+  <div data-role="page" id="page-login">
+    <div data-role="header" class="uniserve-header">
+      <h1>UniServe Portal</h1>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="card" style="text-align: center; margin-top: 20px;">
+        <h2 style="color: #1b365d; margin-bottom: 4px;">UniServe Hub</h2>
+        <p style="color: #64748b; font-size: 0.9rem; margin-top: 0;">
+          University Service Request, Appointment and Queue Management
+        </p>
+
+        <div id="login-alert-container"></div>
+
+        <form id="form-login" style="text-align: left;">
+          <div class="form-group">
+            <label for="login-email">University Email</label>
+            <input type="email" id="login-email" class="form-control" placeholder="student@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" class="form-control" placeholder="Enter password" required>
+          </div>
+
+          <button type="submit" id="btn-login-submit" class="btn-primary" style="margin-top: 18px;">
+            Log In
+          </button>
+        </form>
+
+        <div style="margin-top: 20px; font-size: 0.9rem;">
+          Don't have an account?
+          <a href="#page-signup" style="color: #0284c7; font-weight: 600; text-decoration: none;">Create Student Account</a>
+        </div>
+
+        <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #64748b;">
+          Staff demo login: staff@uniserve.edu.au / StaffPassword123!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- signup page -->
+  <div data-role="page" id="page-signup">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-login" data-icon="back" class="ui-btn-left">Back</a>
+      <h1>Student Registration</h1>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="card" style="margin-top: 10px;">
+        <h3 class="card-title">Register Student Account</h3>
+        <p style="color: #64748b; font-size: 0.85rem;">
+          Register with your valid student email to access university services.
+        </p>
+
+        <div id="signup-alert-container"></div>
+
+        <form id="form-signup">
+          <div class="form-group">
+            <label for="signup-name">Full Name</label>
+            <input type="text" id="signup-name" class="form-control" placeholder="e.g. John Doe" required>
+          </div>
+
+          <div class="form-group">
+            <label for="signup-email">Student Email</label>
+            <input type="email" id="signup-email" class="form-control" placeholder="student@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="signup-password">Password (minimum 8 characters)</label>
+            <input type="password" id="signup-password" class="form-control" placeholder="Create secure password" required minlength="8">
+          </div>
+
+          <div class="form-group">
+            <label for="signup-confirm-password">Confirm Password</label>
+            <input type="password" id="signup-confirm-password" class="form-control" placeholder="Re-enter password" required minlength="8">
+          </div>
+
+          <button type="submit" id="btn-signup-submit" class="btn-primary" style="margin-top: 18px;">
+            Create Account
+          </button>
+        </form>
+
+        <div style="margin-top: 18px; text-align: center; font-size: 0.9rem;">
+          Already registered?
+          <a href="#page-login" style="color: #0284c7; font-weight: 600; text-decoration: none;">Back to Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- student home dashboard -->
+  <div data-role="page" id="page-home">
+    <div data-role="header" class="uniserve-header">
+      <h1>UniServe Student Hub</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="card">
+        <h3 style="color: #1b365d; margin-top: 0; margin-bottom: 4px;">
+          Welcome, <span id="student-greeting-name">Student</span>
+        </h3>
+        <p style="color: #64748b; font-size: 0.9rem; margin-top: 0;">
+          Select an action below to request campus assistance or manage ongoing bookings.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px;">
+          <a href="#page-services" class="btn-primary" style="text-decoration: none;">
+            Browse University Services
+          </a>
+          <a href="#page-my-requests" class="btn-secondary" style="text-decoration: none;">
+            View My Requests and Bookings
+          </a>
+          <a href="#page-queue" class="btn-secondary" style="text-decoration: none;">
+            Check Active Queue Ticket
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4 class="card-title">How UniServe Works</h4>
+        <ol style="font-size: 0.85rem; color: #475569; padding-left: 20px; line-height: 1.6; margin: 0;">
+          <li>Browse available campus services and check their requirements.</li>
+          <li>Submit your request with optional photo evidence.</li>
+          <li>Choose to book a dedicated appointment or join the virtual queue.</li>
+          <li>Track status in real-time as university staff reviews and completes your inquiry.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- service catalogue -->
+  <div data-role="page" id="page-services">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-home" data-icon="back" class="ui-btn-left">Home</a>
+      <h1>Campus Services</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div id="services-list-container"></div>
+    </div>
+  </div>
+
+  <!-- service details -->
+  <div data-role="page" id="page-service-detail">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-services" data-icon="back" class="ui-btn-left">Services</a>
+      <h1>Service Details</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="card">
+        <div id="service-detail-department" class="card-subtitle"></div>
+        <h3 id="service-detail-name" class="card-title" style="font-size: 1.3rem;"></h3>
+        <p id="service-detail-description" style="font-size: 0.95rem; color: #334155; line-height: 1.5;"></p>
+
+        <h4 style="margin: 16px 0 4px 0; color: #1b365d; font-size: 0.95rem;">Requirements</h4>
+        <p style="font-size: 0.85rem; color: #64748b; margin: 4px 0 8px 0;">Before submitting, please make sure you have:</p>
+        <ul id="service-detail-requirements" style="font-size: 0.85rem; color: #475569; padding-left: 20px; margin-top: 4px; line-height: 1.6;"></ul>
+
+        <div style="margin-top: 14px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+          <div class="service-meta-item">
+            <span class="service-meta-label">Evidence Policy</span>
+            <span id="service-detail-evidence" class="service-meta-value"></span>
+          </div>
+          <div class="service-meta-item">
+            <span class="service-meta-label">Appointment</span>
+            <span id="service-detail-appointment" class="service-meta-value"></span>
+          </div>
+          <div class="service-meta-item">
+            <span class="service-meta-label">Virtual Queue</span>
+            <span id="service-detail-queue" class="service-meta-value"></span>
+          </div>
+          <div class="service-meta-item">
+            <span class="service-meta-label">Operating Hours</span>
+            <span id="service-detail-hours" class="service-meta-value"></span>
+          </div>
+        </div>
+
+        <button id="btn-start-request-for-service" class="btn-primary" style="margin-top: 20px;">
+          Create Request for this Service
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- request submission form -->
+  <div data-role="page" id="page-request">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-services" data-icon="back" class="ui-btn-left">Back</a>
+      <h1>Submit Request</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="card">
+        <div class="card-subtitle">New Service Request</div>
+        <h3 id="request-service-name-display" class="card-title"></h3>
+
+        <div id="request-alert-container"></div>
+
+        <form id="form-submit-request">
+          <input type="hidden" id="request-service-id">
+
+          <div class="form-group">
+            <label for="request-description">Describe your inquiry or issue</label>
+            <textarea id="request-description" class="form-control" rows="4" placeholder="Provide relevant details about your request..." required></textarea>
+          </div>
+
+          <div class="form-group" style="margin-top: 16px;">
+            <label>Supporting Evidence (Photo or Screenshot)</label>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button type="button" id="btn-capture-evidence" class="btn-secondary" style="margin-top: 0; flex: 1;">
+                Capture Image
+              </button>
+              <button type="button" id="btn-upload-evidence" class="btn-secondary" style="margin-top: 0; flex: 1;">
+                Upload Image
+              </button>
+              <button type="button" id="btn-clear-evidence" class="btn-secondary" style="margin-top: 0; width: auto; display: none;">
+                Clear
+              </button>
+            </div>
+
+            <!-- hidden inputs for camera and gallery -->
+            <input type="file" id="camera-capture-input" accept="image/*" capture="environment" style="display: none;">
+            <input type="file" id="file-upload-input" accept="image/*" style="display: none;">
+
+            <!-- webcam viewfinder modal -->
+            <div id="live-camera-modal" style="display: none; background: #0f172a; padding: 12px; border-radius: 8px; margin-top: 12px; text-align: center;">
+              <video id="camera-video-stream" autoplay playsinline style="width: 100%; max-height: 260px; border-radius: 6px; background: #000; object-fit: cover;"></video>
+              <canvas id="camera-snapshot-canvas" style="display: none;"></canvas>
+              <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button type="button" id="btn-take-snapshot" class="btn-primary" style="margin-top: 0; flex: 1;">
+                  Take Photo
+                </button>
+                <button type="button" id="btn-close-camera" class="btn-secondary" style="margin-top: 0; width: auto; background: #334155 !important; color: #fff !important; border: none !important;">
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <div class="evidence-preview-container" id="evidence-preview-box" style="display: none; margin-top: 12px; text-align: center;">
+              <img id="request-evidence-preview" class="evidence-preview-img" alt="Captured Evidence Preview">
+              <div id="evidence-file-meta" style="font-size: 0.8rem; color: #64748b; margin-top: 6px;"></div>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-submit-request" class="btn-primary" style="margin-top: 20px;">
+            Submit Request
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- student requests view -->
+  <div data-role="page" id="page-my-requests">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-home" data-icon="back" class="ui-btn-left">Home</a>
+      <h1>My Requests</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div id="my-requests-container"></div>
+    </div>
+  </div>
+
+  <!-- booking appointment -->
+  <div data-role="page" id="page-appointment">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-my-requests" data-icon="back" class="ui-btn-left">Requests</a>
+      <h1>Book Appointment</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="card">
+        <div class="card-subtitle">Request: <span id="booking-request-id-display"></span></div>
+        <h3 class="card-title">Select Appointment Slot</h3>
+        <p style="font-size: 0.85rem; color: #64748b;">
+          Service: <span id="booking-service-id-display" style="font-weight: 600;"></span>
+        </p>
+
+        <div id="booking-alert-container"></div>
+
+        <div class="form-group">
+          <label for="appointment-date-picker">Select Date</label>
+          <input type="date" id="appointment-date-picker" class="form-control">
+        </div>
+
+        <label style="display: block; font-size: 0.9rem; font-weight: 500; margin-top: 14px;">Available Time Slots</label>
+        <div id="appointment-slots-grid" class="slot-grid"></div>
+
+        <button id="btn-confirm-appointment-booking" class="btn-primary" style="margin-top: 20px;" disabled>
+          Confirm Appointment Booking
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- queue status ticket -->
+  <div data-role="page" id="page-queue">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-home" data-icon="back" class="ui-btn-left">Home</a>
+      <h1>Virtual Queue</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="ticket-card">
+        <div class="ticket-label">Your Queue Ticket</div>
+        <div id="queue-ticket-token" class="ticket-token">---</div>
+        <div class="ticket-label">Queue Status</div>
+        <div id="queue-ticket-status" style="font-size: 1.1rem; font-weight: 600; margin-top: 4px;">---</div>
+
+        <div style="margin-top: 20px; font-size: 0.85rem; color: #94a3b8; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 12px;">
+          <div>Request ID: <span id="queue-ticket-request">---</span></div>
+          <div>Service: <span id="queue-ticket-service">---</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="text-align: center;">
+        <p style="font-size: 0.9rem; color: #475569; margin: 0 0 14px 0;">
+          Please wait for staff to call your number. When your token is served, your request will move to Under Review.
+        </p>
+        <button id="btn-cancel-queue-participation" class="btn-danger">
+          Cancel Queue Participation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- staff requests dashboard -->
+  <div data-role="page" id="page-staff-requests">
+    <div data-role="header" class="uniserve-header">
+      <h1>Staff Request Management</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div id="staff-requests-container"></div>
+    </div>
+  </div>
+
+  <!-- staff review screen -->
+  <div data-role="page" id="page-staff-request-detail">
+    <div data-role="header" class="uniserve-header">
+      <a href="#page-staff-requests" data-icon="back" class="ui-btn-left">Back</a>
+      <h1>Review Request</h1>
+      <button class="btn-logout ui-btn-right">Log Out</button>
+    </div>
+    <div role="main" class="ui-content page-container">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+          <div>
+            <span class="card-subtitle">Request: <span id="staff-detail-req-id"></span></span>
+            <h3 id="staff-detail-service" class="card-title" style="margin: 2px 0 0 0;"></h3>
+          </div>
+          <div id="staff-detail-status-badge"></div>
+        </div>
+
+        <div id="staff-detail-alert-container"></div>
+
+        <div class="service-meta-item">
+          <span class="service-meta-label">Student</span>
+          <span id="staff-detail-student" class="service-meta-value"></span>
+        </div>
+
+        <div style="margin: 14px 0;">
+          <label style="font-size: 0.85rem; font-weight: 600; color: #64748b; text-transform: uppercase;">
+            Student Inquiry Description
+          </label>
+          <p id="staff-detail-desc" style="font-size: 0.95rem; color: #1e293b; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0; margin-top: 6px;"></p>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+          <button type="button" id="btn-staff-serve-queue" class="btn-primary" style="display: none; background-color: #0284c7 !important;">
+            Serve Waiting Queue Token
+          </button>
+          <button type="button" id="btn-staff-view-evidence" class="btn-secondary" style="display: none; margin-top: 0;">
+            View Attached Supporting Evidence
+          </button>
+        </div>
+
+        <div id="staff-evidence-container" style="display: none;"></div>
+
+        <div class="form-group" style="margin-top: 18px;">
+          <label for="staff-status-select">Update Workflow Status</label>
+          <select id="staff-status-select" class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+          <label for="staff-response-input">Staff Response / Notes for Student (max 1000 characters)</label>
+          <textarea id="staff-response-input" class="form-control" rows="4" placeholder="Enter notes, guidance, or resolution for student..."></textarea>
+        </div>
+
+        <button id="btn-staff-save-update" class="btn-primary" style="margin-top: 16px;">
+          Save and Update Request
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/evidence.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/requests.js"></script>
+  <script src="js/appointments.js"></script>
+  <script src="js/queue.js"></script>
+  <script src="js/staff.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

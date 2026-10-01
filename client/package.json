@@ -1,0 +1,10 @@
+{
+  "name": "uniserve-client",
+  "version": "1.0.0",
+  "description": "UniServe Cordova Hybrid Mobile Client",
+  "scripts": {
+    "start": "serve www -l 8080"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,10 @@
+{
+  "name": "uniserve-root",
+  "version": "1.0.0",
+  "description": "UniServe University Service Request, Appointment and Queue Hub",
+  "scripts": {
+    "start": "npm start --prefix server",
+    "seed": "npm run seed --prefix server",
+    "test": "npm test --prefix server"
+  }
+}
