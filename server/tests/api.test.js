@@ -92,7 +92,7 @@ describe('UniServe Test Suite', () => {
         .post('/api/auth/login')
         .send({
           email: 'staff@uniserve.edu.au',
-          password: 'StaffPassword123!'
+          password: 'staff1234'
         });
 
       assert.equal(res.status, 200);

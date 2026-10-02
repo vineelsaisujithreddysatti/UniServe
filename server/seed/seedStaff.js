@@ -8,7 +8,7 @@ const defaultStaffAccount = {
   role: 'staff'
 };
 
-const DEFAULT_STAFF_HASH = '$2a$10$K2bZ7NN20HYaaAB3iSvDqu3Ff5EW8Q8HyquncNaT9DPQYUpIuXHau';
+const DEFAULT_STAFF_HASH = '$2a$10$.h2Zvg.gyl7ebrOYN6L/e.SNfUnGS2LOhjJTUsmqMRigDDF2CDBda';
 
 async function seedStaff() {
   let passwordHash = DEFAULT_STAFF_HASH;

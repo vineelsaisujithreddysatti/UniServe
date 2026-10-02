@@ -57,7 +57,7 @@ describe('Concurrency Test Suite (Section 50)', () => {
     // login staff
     const staffLogin = await request(app).post('/api/auth/login').send({
       email: 'staff@uniserve.edu.au',
-      password: 'StaffPassword123!'
+      password: 'staff1234'
     });
     staffToken = staffLogin.body.token;
   });
