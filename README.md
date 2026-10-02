@@ -4,12 +4,11 @@ A web application for university service requests, appointments, and queue track
 
 ## Requirements
 
-- Windows 10 / 11
 - Node.js (v18 or newer recommended)
 
 ## How to Run Locally
 
-1. Open PowerShell or Command Prompt.
+1. Open a terminal or command prompt.
 2. Navigate to the project root directory:
    ```cmd
    cd "path\to\project"
